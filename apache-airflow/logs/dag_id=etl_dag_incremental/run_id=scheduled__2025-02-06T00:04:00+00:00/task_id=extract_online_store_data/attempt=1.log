@@ -1,0 +1,43 @@
+[2025-02-06T15:54:15.101+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-06T15:54:15.127+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_online_store_data scheduled__2025-02-06T00:04:00+00:00 [queued]>
+[2025-02-06T15:54:15.143+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_online_store_data scheduled__2025-02-06T00:04:00+00:00 [queued]>
+[2025-02-06T15:54:15.143+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-02-06T15:54:15.167+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): extract_online_store_data> on 2025-02-06 00:04:00+00:00
+[2025-02-06T15:54:15.190+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=75) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-06T15:54:15.192+0000] {standard_task_runner.py:72} INFO - Started process 78 to run task
+[2025-02-06T15:54:15.194+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'extract_online_store_data', 'scheduled__2025-02-06T00:04:00+00:00', '--job-id', '344', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpjn0e83p_']
+[2025-02-06T15:54:15.195+0000] {standard_task_runner.py:105} INFO - Job 344: Subtask extract_online_store_data
+[2025-02-06T15:54:15.292+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.extract_online_store_data scheduled__2025-02-06T00:04:00+00:00 [running]> on host f34e19f1f8c5
+[2025-02-06T15:54:15.450+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='extract_online_store_data' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T00:04:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-06T00:04:00+00:00'
+[2025-02-06T15:54:15.454+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-06T15:54:15.455+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-06T15:54:15.456+0000] {logging_mixin.py:190} INFO - Current task name:extract_online_store_data state:running start_date:2025-02-06 15:54:15.127883+00:00
+[2025-02-06T15:54:15.456+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-06T15:54:15.457+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-06T15:54:15.506+0000] {base.py:84} INFO - Retrieving connection 'online_store_conn'
+[2025-02-06T15:54:15.516+0000] {sql.py:553} INFO - Running statement: 
+            SELECT * FROM online_orders 
+            WHERE created_at > '2000-01-01 00:00:00'
+            ORDER BY created_at ASC;
+        , parameters: None
+[2025-02-06T15:54:15.546+0000] {sql.py:562} INFO - Rows affected: 5526
+[2025-02-06T15:54:15.965+0000] {etl.py:150} INFO - Extracted orders 5526 new rows from db_online_store.
+[2025-02-06T15:54:15.980+0000] {sql.py:553} INFO - Running statement: 
+            SELECT * FROM customers 
+            WHERE updated_at > '2000-01-01 00:00:00'
+            ORDER BY created_at ASC;
+        , parameters: None
+[2025-02-06T15:54:15.994+0000] {sql.py:562} INFO - Rows affected: 3105
+[2025-02-06T15:54:16.115+0000] {etl.py:170} INFO - Extracted customers 3105 new rows from db_online_store.
+[2025-02-06T15:54:16.128+0000] {python.py:240} INFO - Done. Returned value was: ('/tmp/online_oders_data.json', '/tmp/online_customer_data.json')
+[2025-02-06T15:54:16.211+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-06T15:54:16.212+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=etl_dag_incremental, task_id=extract_online_store_data, run_id=scheduled__2025-02-06T00:04:00+00:00, execution_date=20250206T000400, start_date=20250206T155415, end_date=20250206T155416
+[2025-02-06T15:54:16.243+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-06T15:54:16.245+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-06T15:54:16.250+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental queued_at:2025-02-06 15:54:07.445361+00:00
+[2025-02-06T15:54:16.251+0000] {logging_mixin.py:190} INFO - Task hostname:f34e19f1f8c5 operator:PythonOperator
+[2025-02-06T15:54:16.304+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-06T15:54:16.401+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-02-06T15:54:16.405+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

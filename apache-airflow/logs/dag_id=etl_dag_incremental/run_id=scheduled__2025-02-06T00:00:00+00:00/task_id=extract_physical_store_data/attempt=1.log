@@ -1,0 +1,108 @@
+[2025-02-06T15:06:13.365+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-06T15:06:13.441+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-06T15:06:13.475+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-06T15:06:13.475+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-02-06T15:06:13.524+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): extract_physical_store_data> on 2025-02-06 00:00:00+00:00
+[2025-02-06T15:06:13.587+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=67) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-06T15:06:13.609+0000] {standard_task_runner.py:72} INFO - Started process 80 to run task
+[2025-02-06T15:06:13.617+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'extract_physical_store_data', 'scheduled__2025-02-06T00:00:00+00:00', '--job-id', '299', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpozaqe5vl']
+[2025-02-06T15:06:13.627+0000] {standard_task_runner.py:105} INFO - Job 299: Subtask extract_physical_store_data
+[2025-02-06T15:06:13.876+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [running]> on host f34e19f1f8c5
+[2025-02-06T15:06:14.416+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='extract_physical_store_data' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-06T00:00:00+00:00'
+[2025-02-06T15:06:14.425+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-06T15:06:14.426+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-06T15:06:14.428+0000] {logging_mixin.py:190} INFO - Current task name:extract_physical_store_data state:running start_date:2025-02-06 15:06:13.442937+00:00
+[2025-02-06T15:06:14.428+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-06T15:06:14.429+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-06T15:06:14.508+0000] {base.py:84} INFO - Retrieving connection 'physical_store_conn'
+[2025-02-06T15:06:14.515+0000] {sql.py:553} INFO - Running statement: 
+            SELECT * FROM physical_orders 
+            WHERE created_at > '2000-01-01 00:00:00'
+            ORDER BY created_at ASC;
+        , parameters: None
+[2025-02-06T15:06:14.543+0000] {sql.py:562} INFO - Rows affected: 4810
+[2025-02-06T15:06:14.795+0000] {etl.py:203} INFO - Extracted 4810 new rows from db_physical_store.
+[2025-02-06T15:06:14.800+0000] {python.py:240} INFO - Done. Returned value was: /tmp/physical_data.json
+[2025-02-06T15:06:14.920+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-06T15:06:14.922+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=etl_dag_incremental, task_id=extract_physical_store_data, run_id=scheduled__2025-02-06T00:00:00+00:00, execution_date=20250206T000000, start_date=20250206T150613, end_date=20250206T150614
+[2025-02-06T15:06:14.950+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-06T15:06:14.951+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-06T15:06:14.962+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental queued_at:2025-02-06 15:06:03.251841+00:00
+[2025-02-06T15:06:14.967+0000] {logging_mixin.py:190} INFO - Task hostname:f34e19f1f8c5 operator:PythonOperator
+[2025-02-06T15:06:15.067+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-06T15:06:15.174+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-02-06T15:06:15.180+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-02-06T15:13:04.690+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-06T15:13:04.732+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-06T15:13:04.754+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-06T15:13:04.755+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-02-06T15:13:04.790+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): extract_physical_store_data> on 2025-02-06 00:00:00+00:00
+[2025-02-06T15:13:04.809+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=70) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-06T15:13:04.810+0000] {standard_task_runner.py:72} INFO - Started process 76 to run task
+[2025-02-06T15:13:04.811+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'extract_physical_store_data', 'scheduled__2025-02-06T00:00:00+00:00', '--job-id', '305', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpdj6ppiku']
+[2025-02-06T15:13:04.812+0000] {standard_task_runner.py:105} INFO - Job 305: Subtask extract_physical_store_data
+[2025-02-06T15:13:04.897+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [running]> on host f34e19f1f8c5
+[2025-02-06T15:13:05.080+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='extract_physical_store_data' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-06T00:00:00+00:00'
+[2025-02-06T15:13:05.081+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-06T15:13:05.081+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-06T15:13:05.082+0000] {logging_mixin.py:190} INFO - Current task name:extract_physical_store_data state:running start_date:2025-02-06 15:13:04.733771+00:00
+[2025-02-06T15:13:05.082+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-06T15:13:05.083+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-06T15:13:05.128+0000] {base.py:84} INFO - Retrieving connection 'physical_store_conn'
+[2025-02-06T15:13:05.137+0000] {sql.py:553} INFO - Running statement: 
+            SELECT * FROM physical_orders 
+            WHERE created_at > '2000-01-01 00:00:00'
+            ORDER BY created_at ASC;
+        , parameters: None
+[2025-02-06T15:13:05.153+0000] {sql.py:562} INFO - Rows affected: 4912
+[2025-02-06T15:13:05.285+0000] {etl.py:203} INFO - Extracted 4912 new rows from db_physical_store.
+[2025-02-06T15:13:05.290+0000] {python.py:240} INFO - Done. Returned value was: /tmp/physical_data.json
+[2025-02-06T15:13:05.323+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-06T15:13:05.324+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=etl_dag_incremental, task_id=extract_physical_store_data, run_id=scheduled__2025-02-06T00:00:00+00:00, execution_date=20250206T000000, start_date=20250206T151304, end_date=20250206T151305
+[2025-02-06T15:13:05.342+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-06T15:13:05.343+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-06T15:13:05.343+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental queued_at:2025-02-06 15:12:48.626489+00:00
+[2025-02-06T15:13:05.343+0000] {logging_mixin.py:190} INFO - Task hostname:f34e19f1f8c5 operator:PythonOperator
+[2025-02-06T15:13:05.389+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-06T15:13:05.428+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-02-06T15:13:05.429+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-02-07T11:20:31.108+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-07T11:20:31.129+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-07T11:20:31.141+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [queued]>
+[2025-02-07T11:20:31.141+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-02-07T11:20:31.159+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): extract_physical_store_data> on 2025-02-06 00:00:00+00:00
+[2025-02-07T11:20:31.174+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=71) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-07T11:20:31.175+0000] {standard_task_runner.py:72} INFO - Started process 76 to run task
+[2025-02-07T11:20:31.176+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'extract_physical_store_data', 'scheduled__2025-02-06T00:00:00+00:00', '--job-id', '607', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpl6a2z29u']
+[2025-02-07T11:20:31.177+0000] {standard_task_runner.py:105} INFO - Job 607: Subtask extract_physical_store_data
+[2025-02-07T11:20:31.238+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.extract_physical_store_data scheduled__2025-02-06T00:00:00+00:00 [running]> on host f34e19f1f8c5
+[2025-02-07T11:20:31.346+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='extract_physical_store_data' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-06T00:00:00+00:00'
+[2025-02-07T11:20:31.348+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-07T11:20:31.348+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-07T11:20:31.348+0000] {logging_mixin.py:190} INFO - Current task name:extract_physical_store_data state:running start_date:2025-02-07 11:20:31.129707+00:00
+[2025-02-07T11:20:31.349+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-07T11:20:31.349+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-07T11:20:31.370+0000] {base.py:84} INFO - Retrieving connection 'physical_store_conn'
+[2025-02-07T11:20:31.375+0000] {sql.py:553} INFO - Running statement: 
+            SELECT * FROM physical_orders 
+            WHERE created_at > '2000-01-01 00:00:00'
+            ORDER BY created_at ASC;
+        , parameters: None
+[2025-02-07T11:20:31.392+0000] {sql.py:562} INFO - Rows affected: 9466
+[2025-02-07T11:20:31.594+0000] {etl.py:203} INFO - Extracted 9466 new rows from db_physical_store.
+[2025-02-07T11:20:31.597+0000] {python.py:240} INFO - Done. Returned value was: /tmp/physical_data.json
+[2025-02-07T11:20:31.623+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-07T11:20:31.623+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=etl_dag_incremental, task_id=extract_physical_store_data, run_id=scheduled__2025-02-06T00:00:00+00:00, execution_date=20250206T000000, start_date=20250207T112031, end_date=20250207T112031
+[2025-02-07T11:20:31.633+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-07T11:20:31.633+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-07T11:20:31.634+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental queued_at:2025-02-07 11:20:24.913876+00:00
+[2025-02-07T11:20:31.634+0000] {logging_mixin.py:190} INFO - Task hostname:f34e19f1f8c5 operator:PythonOperator
+[2025-02-07T11:20:31.670+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-07T11:20:31.695+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-07T11:20:31.696+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

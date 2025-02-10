@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  db_online_store:
+    image: postgres:13
+    container_name: db_online_store
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminadmin
+      - POSTGRES_DB=online_store
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init-scripts/online_store:/docker-entrypoint-initdb.d
+      - ./data/online_store:/var/lib/postgresql/data
+    networks:
+      - store_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d online_store"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db_physical_store:
+    image: postgres:13
+    container_name: db_physical_store
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminadmin
+      - POSTGRES_DB=physical_store
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-scripts/physical_store:/docker-entrypoint-initdb.d
+      - ./data/physical_store:/var/lib/postgresql/data
+    networks:
+      - store_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d physical_store"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80" 
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db_online_store
+      - db_physical_store
+    networks:
+      - store_network
+  
+  faker_data_service:
+    build:
+      context: ./faker-data
+      dockerfile: ./Dockerfile
+    container_name: faker_data
+    depends_on:
+      db_online_store:
+        condition: service_healthy
+      db_physical_store:
+        condition: service_healthy
+    links:
+      - db_online_store
+      - db_physical_store
+    networks:
+      - store_network
+
+
+volumes:
+  pgadmin_data:
+
+networks:
+  store_network:
+    driver: bridge

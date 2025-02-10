@@ -1,0 +1,146 @@
+[2025-02-06T16:48:29.920+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-06T16:48:29.953+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T16:33:25.405424+00:00 [queued]>
+[2025-02-06T16:48:29.969+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T16:33:25.405424+00:00 [queued]>
+[2025-02-06T16:48:29.970+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 3
+[2025-02-06T16:48:29.992+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): transform_and_load> on 2025-02-06 16:33:25.405424+00:00
+[2025-02-06T16:48:30.013+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=402) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-06T16:48:30.015+0000] {standard_task_runner.py:72} INFO - Started process 404 to run task
+[2025-02-06T16:48:30.017+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'transform_and_load', 'manual__2025-02-06T16:33:25.405424+00:00', '--job-id', '398', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmp_935nhio']
+[2025-02-06T16:48:30.019+0000] {standard_task_runner.py:105} INFO - Job 398: Subtask transform_and_load
+[2025-02-06T16:48:30.113+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T16:33:25.405424+00:00 [running]> on host f34e19f1f8c5
+[2025-02-06T16:48:30.272+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='transform_and_load' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T16:33:25.405424+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-06T16:33:25.405424+00:00'
+[2025-02-06T16:48:30.273+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-06T16:48:30.273+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-06T16:48:30.274+0000] {logging_mixin.py:190} INFO - Current task name:transform_and_load state:running start_date:2025-02-06 16:48:29.953973+00:00
+[2025-02-06T16:48:30.274+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-06T16:48:30.274+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-06T16:48:30.358+0000] {etl.py:234} INFO - Unified transactions count: 12600
+[2025-02-06T16:48:30.361+0000] {etl.py:239} INFO - Custumers transactions count: 12600
+[2025-02-06T16:48:30.362+0000] {connection.py:414} INFO - Snowflake Connector for Python Version: 3.12.4, Python Version: 3.12.8, Platform: Linux-6.9.3-76060903-generic-x86_64-with-glibc2.36
+[2025-02-06T16:48:30.363+0000] {connection.py:1197} INFO - Connecting to GLOBAL Snowflake domain
+[2025-02-06T16:48:30.364+0000] {connection.py:1278} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2025-02-06T16:48:34.780+0000] {connection.py:789} INFO - closed
+[2025-02-06T16:48:34.884+0000] {connection.py:795} INFO - No async queries seem to be running, deleting session
+[2025-02-06T16:48:35.012+0000] {etl.py:294} ERROR - Error: 002003 (42S02): 01ba3710-0000-d5cd-0000-00018dde52ad: SQL compilation error:
+Table 'ORDERS' does not exist or not authorized.
+[2025-02-06T16:48:35.014+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/etl.py", line 265, in transform_and_load
+    cursor.executemany(insert_sql, all_values)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/cursor.py", line 1403, in executemany
+    self.execute(command, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/cursor.py", line 1097, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 284, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 339, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 215, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 002003 (42S02): 01ba3710-0000-d5cd-0000-00018dde52ad: SQL compilation error:
+Table 'ORDERS' does not exist or not authorized.
+[2025-02-06T16:48:35.036+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-02-06T16:48:35.037+0000] {logging_mixin.py:190} INFO - Task start:2025-02-06 16:48:29.953973+00:00 end:2025-02-06 16:48:35.036253+00:00 duration:5.08228
+[2025-02-06T16:48:35.037+0000] {logging_mixin.py:190} INFO - Task:<Task(PythonOperator): transform_and_load> dag:<DAG: etl_dag_incremental> dagrun:<DagRun etl_dag_incremental @ 2025-02-06 16:33:25.405424+00:00: manual__2025-02-06T16:33:25.405424+00:00, state:running, queued_at: 2025-02-06 16:33:25.427653+00:00. externally triggered: True>
+[2025-02-06T16:48:35.038+0000] {logging_mixin.py:190} INFO - Failure caused by 002003 (42S02): 01ba3710-0000-d5cd-0000-00018dde52ad: SQL compilation error:
+Table 'ORDERS' does not exist or not authorized.
+[2025-02-06T16:48:35.038+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_dag_incremental, task_id=transform_and_load, run_id=manual__2025-02-06T16:33:25.405424+00:00, execution_date=20250206T163325, start_date=20250206T164829, end_date=20250206T164835
+[2025-02-06T16:48:35.064+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-06T16:48:35.065+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 398 for task transform_and_load (002003 (42S02): 01ba3710-0000-d5cd-0000-00018dde52ad: SQL compilation error:
+Table 'ORDERS' does not exist or not authorized.; 404)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/etl.py", line 265, in transform_and_load
+    cursor.executemany(insert_sql, all_values)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/cursor.py", line 1403, in executemany
+    self.execute(command, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/cursor.py", line 1097, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 284, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 339, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 215, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 002003 (42S02): 01ba3710-0000-d5cd-0000-00018dde52ad: SQL compilation error:
+Table 'ORDERS' does not exist or not authorized.
+[2025-02-06T16:48:35.114+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-02-06T16:48:35.152+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-06T16:48:35.154+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

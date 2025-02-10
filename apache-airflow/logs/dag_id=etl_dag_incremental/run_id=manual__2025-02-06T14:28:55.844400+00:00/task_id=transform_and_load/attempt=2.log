@@ -1,0 +1,198 @@
+[2025-02-06T14:59:50.016+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-06T14:59:50.057+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T14:28:55.844400+00:00 [queued]>
+[2025-02-06T14:59:50.079+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T14:28:55.844400+00:00 [queued]>
+[2025-02-06T14:59:50.080+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-02-06T14:59:50.115+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): transform_and_load> on 2025-02-06 14:28:55.844400+00:00
+[2025-02-06T14:59:50.140+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=141) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-06T14:59:50.141+0000] {standard_task_runner.py:72} INFO - Started process 143 to run task
+[2025-02-06T14:59:50.142+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'transform_and_load', 'manual__2025-02-06T14:28:55.844400+00:00', '--job-id', '289', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpw26qx8kg']
+[2025-02-06T14:59:50.143+0000] {standard_task_runner.py:105} INFO - Job 289: Subtask transform_and_load
+[2025-02-06T14:59:50.272+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.transform_and_load manual__2025-02-06T14:28:55.844400+00:00 [running]> on host f34e19f1f8c5
+[2025-02-06T14:59:50.531+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='transform_and_load' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T14:28:55.844400+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-06T14:28:55.844400+00:00'
+[2025-02-06T14:59:50.535+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-06T14:59:50.537+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-06T14:59:50.539+0000] {logging_mixin.py:190} INFO - Current task name:transform_and_load state:running start_date:2025-02-06 14:59:50.058268+00:00
+[2025-02-06T14:59:50.539+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-06T14:59:50.540+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-06T14:59:50.712+0000] {etl.py:237} INFO - Unified transactions count: 9271
+[2025-02-06T14:59:50.715+0000] {connection.py:414} INFO - Snowflake Connector for Python Version: 3.12.4, Python Version: 3.12.8, Platform: Linux-6.9.3-76060903-generic-x86_64-with-glibc2.36
+[2025-02-06T14:59:50.717+0000] {connection.py:1197} INFO - Connecting to GLOBAL Snowflake domain
+[2025-02-06T14:59:50.720+0000] {connection.py:1278} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2025-02-06T14:59:51.864+0000] {etl.py:267} ERROR - Error: 250003 (08001): None: 404 Not Found: post https://WO31924.snowflakecomputing.com:443/session/v1/login-request?request_id=b825c676-24bb-4184-82bd-fae1128e4e46&databaseName=STOREDATABASE&schemaName=STOREDATA&warehouse=store_data_warehouse&request_guid=a950c5db-6bfd-49c5-b6dd-334fc9dc8f5c
+[2025-02-06T14:59:51.866+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/etl.py", line 240, in transform_and_load
+    dw_hook = snowflake.connector.connect(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/__init__.py", line 55, in Connect
+    return SnowflakeConnection(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 457, in __init__
+    self.connect(**kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 772, in connect
+    self.__open_connection()
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1100, in __open_connection
+    self.authenticate_with_retry(self.auth_class)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1387, in authenticate_with_retry
+    self._authenticate(auth_instance)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1415, in _authenticate
+    auth.authenticate(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/auth/_auth.py", line 264, in authenticate
+    ret = self._rest._post_request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 748, in _post_request
+    ret = self.fetch(
+          ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 863, in fetch
+    ret = self._request_exec_wrapper(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 991, in _request_exec_wrapper
+    raise e
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 913, in _request_exec_wrapper
+    return_object = self._request_exec(
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 1190, in _request_exec
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 1139, in _request_exec
+    raise_failed_request_error(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 231, in raise_failed_request_error
+    Error.errorhandler_wrapper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 284, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 342, in hand_to_other_handler
+    connection.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 215, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.InterfaceError: 250003 (08001): None: 404 Not Found: post https://WO31924.snowflakecomputing.com:443/session/v1/login-request?request_id=b825c676-24bb-4184-82bd-fae1128e4e46&databaseName=STOREDATABASE&schemaName=STOREDATA&warehouse=store_data_warehouse&request_guid=a950c5db-6bfd-49c5-b6dd-334fc9dc8f5c
+[2025-02-06T14:59:51.901+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-02-06T14:59:51.904+0000] {logging_mixin.py:190} INFO - Task start:2025-02-06 14:59:50.058268+00:00 end:2025-02-06 14:59:51.899625+00:00 duration:1.841357
+[2025-02-06T14:59:51.905+0000] {logging_mixin.py:190} INFO - Task:<Task(PythonOperator): transform_and_load> dag:<DAG: etl_dag_incremental> dagrun:<DagRun etl_dag_incremental @ 2025-02-06 14:28:55.844400+00:00: manual__2025-02-06T14:28:55.844400+00:00, state:running, queued_at: 2025-02-06 14:45:01.922964+00:00. externally triggered: True>
+[2025-02-06T14:59:51.906+0000] {logging_mixin.py:190} INFO - Failure caused by 250003 (08001): None: 404 Not Found: post https://WO31924.snowflakecomputing.com:443/session/v1/login-request?request_id=b825c676-24bb-4184-82bd-fae1128e4e46&databaseName=STOREDATABASE&schemaName=STOREDATA&warehouse=store_data_warehouse&request_guid=a950c5db-6bfd-49c5-b6dd-334fc9dc8f5c
+[2025-02-06T14:59:51.907+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=etl_dag_incremental, task_id=transform_and_load, run_id=manual__2025-02-06T14:28:55.844400+00:00, execution_date=20250206T142855, start_date=20250206T145950, end_date=20250206T145951
+[2025-02-06T14:59:51.960+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-06T14:59:51.961+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 289 for task transform_and_load (250003 (08001): None: 404 Not Found: post https://WO31924.snowflakecomputing.com:443/session/v1/login-request?request_id=b825c676-24bb-4184-82bd-fae1128e4e46&databaseName=STOREDATABASE&schemaName=STOREDATA&warehouse=store_data_warehouse&request_guid=a950c5db-6bfd-49c5-b6dd-334fc9dc8f5c; 143)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/etl.py", line 240, in transform_and_load
+    dw_hook = snowflake.connector.connect(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/__init__.py", line 55, in Connect
+    return SnowflakeConnection(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 457, in __init__
+    self.connect(**kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 772, in connect
+    self.__open_connection()
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1100, in __open_connection
+    self.authenticate_with_retry(self.auth_class)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1387, in authenticate_with_retry
+    self._authenticate(auth_instance)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/connection.py", line 1415, in _authenticate
+    auth.authenticate(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/auth/_auth.py", line 264, in authenticate
+    ret = self._rest._post_request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 748, in _post_request
+    ret = self.fetch(
+          ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 863, in fetch
+    ret = self._request_exec_wrapper(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 991, in _request_exec_wrapper
+    raise e
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 913, in _request_exec_wrapper
+    return_object = self._request_exec(
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 1190, in _request_exec
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 1139, in _request_exec
+    raise_failed_request_error(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/network.py", line 231, in raise_failed_request_error
+    Error.errorhandler_wrapper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 284, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 342, in hand_to_other_handler
+    connection.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 215, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.InterfaceError: 250003 (08001): None: 404 Not Found: post https://WO31924.snowflakecomputing.com:443/session/v1/login-request?request_id=b825c676-24bb-4184-82bd-fae1128e4e46&databaseName=STOREDATABASE&schemaName=STOREDATA&warehouse=store_data_warehouse&request_guid=a950c5db-6bfd-49c5-b6dd-334fc9dc8f5c
+[2025-02-06T14:59:52.046+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-02-06T14:59:52.143+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-06T14:59:52.151+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

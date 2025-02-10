@@ -1,0 +1,28 @@
+[2025-02-07T11:12:53.048+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-07T11:12:53.076+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_dag_incremental.save_last_timestamp scheduled__2025-02-06T00:21:00+00:00 [queued]>
+[2025-02-07T11:12:53.089+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_dag_incremental.save_last_timestamp scheduled__2025-02-06T00:21:00+00:00 [queued]>
+[2025-02-07T11:12:53.089+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-02-07T11:12:53.109+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): save_last_timestamp> on 2025-02-06 00:21:00+00:00
+[2025-02-07T11:12:53.122+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=172) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-02-07T11:12:53.124+0000] {standard_task_runner.py:72} INFO - Started process 174 to run task
+[2025-02-07T11:12:53.125+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_dag_incremental', 'save_last_timestamp', 'scheduled__2025-02-06T00:21:00+00:00', '--job-id', '593', '--raw', '--subdir', 'DAGS_FOLDER/etl.py', '--cfg-path', '/tmp/tmpl0vw99ha']
+[2025-02-07T11:12:53.127+0000] {standard_task_runner.py:105} INFO - Job 593: Subtask save_last_timestamp
+[2025-02-07T11:12:53.199+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_dag_incremental.save_last_timestamp scheduled__2025-02-06T00:21:00+00:00 [running]> on host f34e19f1f8c5
+[2025-02-07T11:12:53.318+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_dag_incremental' AIRFLOW_CTX_TASK_ID='save_last_timestamp' AIRFLOW_CTX_EXECUTION_DATE='2025-02-06T00:21:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-06T00:21:00+00:00'
+[2025-02-07T11:12:53.319+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-02-07T11:12:53.319+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-02-07T11:12:53.319+0000] {logging_mixin.py:190} INFO - Current task name:save_last_timestamp state:running start_date:2025-02-07 11:12:53.077018+00:00
+[2025-02-07T11:12:53.320+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental and current dag run status:running
+[2025-02-07T11:12:53.320+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-07T11:12:53.334+0000] {python.py:240} INFO - Done. Returned value was: 2025-02-07T11:12:12
+[2025-02-07T11:12:53.358+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-07T11:12:53.360+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=etl_dag_incremental, task_id=save_last_timestamp, run_id=scheduled__2025-02-06T00:21:00+00:00, execution_date=20250206T002100, start_date=20250207T111253, end_date=20250207T111253
+[2025-02-07T11:12:53.374+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-02-07T11:12:53.375+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-02-07T11:12:53.375+0000] {logging_mixin.py:190} INFO - Dag name:etl_dag_incremental queued_at:2025-02-07 11:12:08.972922+00:00
+[2025-02-07T11:12:53.375+0000] {logging_mixin.py:190} INFO - Task hostname:f34e19f1f8c5 operator:PythonOperator
+[2025-02-07T11:12:53.422+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-07T11:12:53.449+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-07T11:12:53.450+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
