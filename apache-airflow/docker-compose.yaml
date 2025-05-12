@@ -77,6 +77,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -302,49 +303,8 @@ services:
     networks:
       - databases_store_network
 
-  spark-master:
-    image: bitnami/spark:latest
-    environment:
-      - SPARK_MODE=master
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-      - SPARK_MASTER_WEBUI_PORT=8081
-    ports:
-      - "8081:8081"
-      - "7077:7077"
-    volumes:
-      - spark-data:/bitnami
-      - ./apps:/opt/spark-apps
-      - ./data:/opt/spark-data
-    networks:
-      - databases_store_network
-
-  spark-worker:
-    image: bitnami/spark:latest
-    environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_MEMORY=2G
-      - SPARK_WORKER_CORES=2
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-    volumes:
-      - spark-data:/bitnami
-      - ./apps:/opt/spark-apps
-      - ./data:/opt/spark-data
-    depends_on:
-      - spark-master
-    networks:
-      - databases_store_network
-
 volumes:
   postgres-db-volume:
-  spark-data:
-
 networks:
   databases_store_network:
     external: true

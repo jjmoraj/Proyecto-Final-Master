@@ -8,7 +8,6 @@ import json
 import os
 from decimal import Decimal
 from airflow.utils.dates import days_ago
-from pyspark.sql import SparkSession
 
 
 logger = logging.getLogger(__name__)
@@ -24,7 +23,7 @@ default_args = {
 dag = DAG(
     'etl_dag',
     default_args=default_args,
-    schedule_interval='*/1 * * * *',  # Runs every 1 minut
+    schedule_interval='*/5 * * * *',  # Runs every 5 minut
     catchup=False,  # Allows catching up missed runs
     max_active_runs=1,
     is_paused_upon_creation=False
@@ -52,11 +51,21 @@ def convert_to_json_serializable(value):
 
 def get_last_timestamp(**kwargs):
     """
-    Retrieves the last processed timestamp from XCom.
-    If not available, defaults to '2000-01-01 00:00:00'.
+    Retrieves the last processed timestamp from temp file.
+    If not available, defaults to '2025-01-01 00:00:00'.
     """
     ti = kwargs['ti']
-    last_timestamp = ti.xcom_pull(task_ids='save_last_timestamp', default="2000-01-01 00:00:00")
+    try:
+        with open("./last_timestamp.txt", "r", encoding="utf-8") as f:
+            content = f.read()
+        last_timestamp = '2025-01-01 00:00:00' if not content.strip() else content
+
+    except Exception as e:
+        last_timestamp = '2025-01-01 00:00:00'
+
+    ti.xcom_push(key='last_timestamp', value=last_timestamp)
+    print(last_timestamp)
+
     return last_timestamp
 
 # ---------------- Functional Transformation Functions ---------------- #
@@ -129,7 +138,7 @@ def extract_online_store_data(**kwargs):
     """
     try:
         ti = kwargs['ti']
-        last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2000-01-01 00:00:00"
+        last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2025-01-01 00:00:00"
 
         online_hook = PostgresHook(postgres_conn_id='online_store_conn')
         order_sql = f"""
@@ -183,7 +192,7 @@ def extract_physical_store_data(**kwargs):
     """
     try:
         ti = kwargs['ti']
-        last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2000-01-01 00:00:00"
+        last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2025-01-01 00:00:00"
 
         physical_hook = PostgresHook(postgres_conn_id='physical_store_conn')
         sql = f"""
@@ -234,9 +243,7 @@ def transform_and_load(**kwargs):
         # Apply transformations
         unified_transactions = [transform_online_row(row) for row in online_orders_data] + \
                             [transform_physical_row(row) for row in physical_data]
-        with open('/tmp/prrueba.json', "w") as f:
-            json.dump(unified_transactions, f)
-
+        
         logger.info(f"Unified transactions count: {len(unified_transactions)}")
 
         
@@ -244,16 +251,14 @@ def transform_and_load(**kwargs):
 
         logger.info(f"Custumers transactions count: {len(unified_transactions)}")
 
-
-
         # Load into Data Warehouse
         dw_hook = snowflake.connector.connect(
-            user='dbt_USER',
-            password='adminadmin',
-            account='yj85292.europe-west2.gcp',
-            warehouse='store_data_warehouse',
-            database='STOREDATABASE',
-            schema='STOREDATA',
+            user=os.getenv('SNOWFLAKE_USER'),
+            password=os.getenv('SNOWFLAKE_PASSWORD'),
+            account=os.getenv('SNOWFLAKE_ACCOUNT'),
+            warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
+            database=os.getenv('SNOWFLAKE_DATABASE'),
+            schema=os.getenv('SNOWFLAKE_SCHEMA'),
         )
 
         cursor = dw_hook.cursor()
@@ -287,10 +292,6 @@ def transform_and_load(**kwargs):
             cursor.executemany(insert_orders_sql, all_values)
             dw_hook.commit() 
 
-
-
-
-
         finally:
             cursor.close()
             dw_hook.close()
@@ -311,6 +312,10 @@ def save_last_timestamp(**kwargs):
     """
     ti = kwargs['ti']
     last_timestamp = ti.xcom_pull(task_ids='transform_and_load', key='last_timestamp')
+
+    with open("./last_timestamp.txt", "w", encoding="utf-8") as f:
+        f.write(f"{last_timestamp}")
+
     return last_timestamp
 
 # ---------------- Defining DAG Tasks ---------------- #
@@ -350,5 +355,5 @@ t4 = PythonOperator(
     dag=dag,
 )
 
-# Establish task dependencies
+# Task dependencies
 t0 >> [t1, t2] >> t3 >> t4

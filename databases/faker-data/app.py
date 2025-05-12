@@ -213,10 +213,10 @@ if __name__ == "__main__":
 
         while True:
             insert_fake_data_for_online_orders(online_store_cursor, online_store_connection)
-            time.sleep(2)
+            time.sleep(8)
 
             insert_fake_data_for_physical_orders(physical_store_cursor, physical_store_connection)
-            time.sleep(2)
+            time.sleep(8)
 
     except Exception as error:
         logger.error("An error occurred: %s", error)
