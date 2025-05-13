@@ -49,8 +49,9 @@ x-airflow-common:
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
-  image: my-airflow:latest
-  # build: .
+  env_file:
+    - ../.env 
+  build: .
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -102,7 +103,7 @@ services:
       start_period: 5s
     restart: always
     networks:
-    - databases_store_network
+    - store_network
 
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
@@ -118,7 +119,7 @@ services:
       start_period: 30s
     restart: always
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-webserver:
     <<: *airflow-common
@@ -137,7 +138,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-scheduler:
     <<: *airflow-common
@@ -154,7 +155,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-worker:
     <<: *airflow-common
@@ -179,7 +180,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-triggerer:
     <<: *airflow-common
@@ -196,7 +197,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-init:
     <<: *airflow-common
@@ -262,7 +263,7 @@ services:
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
     networks:
-      - databases_store_network
+      - store_network
 
   airflow-cli:
     <<: *airflow-common
@@ -277,7 +278,7 @@ services:
       - -c
       - airflow
     networks:
-    - databases_store_network
+    - store_network
 
   # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
   # or by explicitly targeted on the command line e.g. docker-compose up flower.
@@ -301,10 +302,10 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - databases_store_network
+      - store_network
 
 volumes:
   postgres-db-volume:
 networks:
-  databases_store_network:
+  store_network:
     external: true

@@ -4,6 +4,8 @@ services:
   db_online_store:
     image: postgres:13
     container_name: db_online_store
+    env_file:
+    - ../.env 
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=adminadmin
@@ -24,6 +26,8 @@ services:
   db_physical_store:
     image: postgres:13
     container_name: db_physical_store
+    env_file:
+    - ../.env 
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=adminadmin
@@ -44,6 +48,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
+    env_file:
+    - ../.env 
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -62,6 +68,8 @@ services:
       context: ./faker-data
       dockerfile: ./Dockerfile
     container_name: faker_data
+    env_file:
+    - ../.env 
     depends_on:
       db_online_store:
         condition: service_healthy
@@ -79,4 +87,4 @@ volumes:
 
 networks:
   store_network:
-    driver: bridge
+    external: true

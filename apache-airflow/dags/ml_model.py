@@ -25,7 +25,7 @@ default_args = {
 dag = DAG(
     'holt_winters_forecasting',
     default_args=default_args,
-    schedule_interval='0 0 * * *',  # Runs daily at midnight UTC
+    schedule_interval='0 0 * * *',  
     catchup=False,
     max_active_runs=1,
     tags=['forecasting'],
@@ -107,10 +107,10 @@ def run_holt_winters(**kwargs):
     """
     try:
         ti   = kwargs['ti']
-        # recupera el path al JSON con {'ds':'YYYY-MM-DD','y':int} desde la tarea previa
+        #Retrieves the path to the JSON with {‘ds’:'YYYYY-MM-DD',‘y’:int} from the previous task
         json_path = ti.xcom_pull(task_ids='extract_daily_counts', key='daily_counts_path')
 
-        # 1) Cargo y preparo el DataFrame
+        #Load and prepare DataFrame
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         df = pd.DataFrame(data)
@@ -118,7 +118,7 @@ def run_holt_winters(**kwargs):
         df.set_index('ds', inplace=True)
         df = df.sort_index().asfreq('D', fill_value=0)
 
-        # 2) Entreno el modelo sobre TODO el histórico
+        #Trainning the model
         model_full = ExponentialSmoothing(
             df['y'].astype(float),
             trend='add',
@@ -126,7 +126,7 @@ def run_holt_winters(**kwargs):
             seasonal_periods=7
         ).fit(optimized=True)
 
-        # 3) Serializo el modelo + última fecha en un solo archivo
+        #Serialize the model and save the last date
         last_date  = df.index.max()
         artifact   = {
             'model': model_full,
@@ -139,7 +139,7 @@ def run_holt_winters(**kwargs):
         with open(model_path, 'wb') as f:
             pickle.dump(artifact, f)
 
-        logger.info(f"Modelo y metadata guardados en {model_path}")
+        logger.info(f"Model and metadata stored in {model_path}")
 
 
     except Exception as e:

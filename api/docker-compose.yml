@@ -3,6 +3,8 @@ services:
   fastapi:
     build: .
     container_name: fastapi_app
+    env_file:
+    - ../.env 
     ports:
       - "8081:8081"
     volumes:
@@ -11,8 +13,8 @@ services:
     environment:
       MODEL_PATH: /app/model/holt_winters_artifact.pkl
     networks:
-    - databases_store_network
+    - store_network
     
 networks:
-  databases_store_network:
+  store_network:
     external: true

@@ -23,8 +23,8 @@ default_args = {
 dag = DAG(
     'etl_dag',
     default_args=default_args,
-    schedule_interval='*/5 * * * *',  # Runs every 5 minut
-    catchup=False,  # Allows catching up missed runs
+    schedule_interval='*/5 * * * *',  
+    catchup=False, 
     max_active_runs=1,
     is_paused_upon_creation=False
 )
@@ -55,17 +55,21 @@ def get_last_timestamp(**kwargs):
     If not available, defaults to '2025-01-01 00:00:00'.
     """
     ti = kwargs['ti']
-    try:
-        with open("./last_timestamp.txt", "r", encoding="utf-8") as f:
-            content = f.read()
-        last_timestamp = '2025-01-01 00:00:00' if not content.strip() else content
+    path = "./last_timestamp.txt"
+    
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            last_timestamp = '2025-01-01 00:00:00' if content.strip() else content
 
-    except Exception as e:
+        except Exception as e:
+            last_timestamp = '2025-01-01 00:00:00'
+
+    else:
         last_timestamp = '2025-01-01 00:00:00'
 
     ti.xcom_push(key='last_timestamp', value=last_timestamp)
-    print(last_timestamp)
-
     return last_timestamp
 
 # ---------------- Functional Transformation Functions ---------------- #
@@ -250,7 +254,7 @@ def transform_and_load(**kwargs):
         customers_transactions = [transform_customer_row(row) for row in online_customers_data]
 
         logger.info(f"Custumers transactions count: {len(unified_transactions)}")
-
+        
         # Load into Data Warehouse
         dw_hook = snowflake.connector.connect(
             user=os.getenv('SNOWFLAKE_USER'),
@@ -259,13 +263,10 @@ def transform_and_load(**kwargs):
             warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
             database=os.getenv('SNOWFLAKE_DATABASE'),
             schema=os.getenv('SNOWFLAKE_SCHEMA'),
-        )
-
+        )   
         cursor = dw_hook.cursor()
 
         try:
-
-
             customers_columns = list(customers_transactions[0].keys())  
 
             customers_columns_str = ", ".join(customers_columns)   
@@ -283,8 +284,6 @@ def transform_and_load(**kwargs):
             orders_columns_str = ", ".join(orders_columns)                       
             oders_values = ", ".join(["%s"] * len(orders_columns))        
             insert_orders_sql = f"INSERT INTO ORDERS ({orders_columns_str}) VALUES ({oders_values})"
-            
-
 
             all_values = [tuple(tx[col] for col in orders_columns) for tx in unified_transactions]
             with open("/tmp/sql.txt", "w", encoding="utf-8") as f:

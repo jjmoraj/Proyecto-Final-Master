@@ -3,12 +3,14 @@ services:
   streamlit:
     build: .
     container_name: streamlit_app
+    env_file:
+    - ../.env 
     ports:
       - "8501:8501"
     volumes:
       - ./src:/app
     networks:
-    - databases_store_network
+    - store_network
 networks:
-  databases_store_network:
+  store_network:
     external: true

@@ -196,6 +196,7 @@ def main():
     df = load_data(start_date, end_date, location, category, gender, order_type, payment_method, season)
 
     # --- Key Performance Indicators ---
+    st.header("Sales and Customer Analysis")
     st.subheader("Key Metrics")
     total_sales = df['PURCHASE_AMOUNT_USD'].sum() if not df.empty else 0
     order_count = len(df)
@@ -282,7 +283,6 @@ def main():
 
         # Geographic sales map
         df_map = df.groupby('LOCATION', as_index=False)['PURCHASE_AMOUNT_USD'].sum()
-        # Placeholder coordinates dictionary; replace with geocoding if needed
         coords = {
             'Kentucky': {'latitude': 37.8393, 'longitude': -84.2700},
             'Maine': {'latitude': 45.2538, 'longitude': -69.4455},
