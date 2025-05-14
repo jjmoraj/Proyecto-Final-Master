@@ -7,9 +7,9 @@ services:
     env_file:
     - ../.env 
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=adminadmin
-      - POSTGRES_DB=online_store
+      POSTGRES_USER: ${ONLINE_STORE_USER}
+      POSTGRES_PASSWORD: ${ONLINE_STORE_PASSWORD}
+      POSTGRES_DB: ${ONLINE_STORE_DB}
     ports:
       - "5433:5432"
     volumes:
@@ -29,9 +29,9 @@ services:
     env_file:
     - ../.env 
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=adminadmin
-      - POSTGRES_DB=physical_store
+      POSTGRES_USER: ${PHYSICAL_STORE_USER}
+      POSTGRES_PASSWORD: ${PHYSICAL_STORE_PASSWORD}
+      POSTGRES_DB: ${PHYSICAL_STORE_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -51,8 +51,8 @@ services:
     env_file:
     - ../.env 
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
     ports:
       - "8080:80" 
     volumes:

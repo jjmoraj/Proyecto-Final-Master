@@ -12,7 +12,8 @@ apache-airflow/config
 
 api/data
 
-databases/dataset/pruebas.ipynb
+databases/init-scripts/online_store/online_store.csv
+databases/init-scripts/physical_store/physical_store.csv
 databases/data
 
 

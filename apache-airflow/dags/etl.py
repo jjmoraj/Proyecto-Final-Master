@@ -8,6 +8,7 @@ import json
 import os
 from decimal import Decimal
 from airflow.utils.dates import days_ago
+from airflow.models.connection import Connection
 
 
 logger = logging.getLogger(__name__)
@@ -143,8 +144,17 @@ def extract_online_store_data(**kwargs):
     try:
         ti = kwargs['ti']
         last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2025-01-01 00:00:00"
-
-        online_hook = PostgresHook(postgres_conn_id='online_store_conn')
+        online_db_conn = Connection(
+            conn_id="online_store_conn",
+            conn_type="postgres",
+            description="Online Store Postgres Data Base Connection",
+            port='5432',
+            host="db_online_store",
+            schema=os.getenv('ONLINE_STORE_DB'),
+            login=os.getenv('ONLINE_STORE_USER'),
+            password=os.getenv('ONLINE_STORE_PASSWORD'),
+        )
+        online_hook = PostgresHook(postgres_conn_id=online_db_conn.conn_id)
         order_sql = f"""
             SELECT * FROM online_orders 
             WHERE created_at > '{last_timestamp}'
@@ -197,8 +207,17 @@ def extract_physical_store_data(**kwargs):
     try:
         ti = kwargs['ti']
         last_timestamp = ti.xcom_pull(task_ids='get_last_timestamp') or "2025-01-01 00:00:00"
-
-        physical_hook = PostgresHook(postgres_conn_id='physical_store_conn')
+        physical_db_conn = Connection(
+            conn_id="physical_store_conn",
+            conn_type="postgres",
+            description="Physical Store Postgres Data Base Connection",
+            port='5432',
+            host="db_physical_store",
+            schema=os.getenv('PHYSICAL_STORE_DB'),
+            login=os.getenv('PHYSICAL_STORE_USER'),
+            password=os.getenv('PHYSICAL_STORE_PASSWORD'),
+        )
+        physical_hook = PostgresHook(postgres_conn_id=physical_db_conn.conn_id)
         sql = f"""
             SELECT * FROM physical_orders 
             WHERE created_at > '{last_timestamp}'
@@ -249,8 +268,7 @@ def transform_and_load(**kwargs):
                             [transform_physical_row(row) for row in physical_data]
         
         logger.info(f"Unified transactions count: {len(unified_transactions)}")
-
-        
+ 
         customers_transactions = [transform_customer_row(row) for row in online_customers_data]
 
         logger.info(f"Custumers transactions count: {len(unified_transactions)}")

@@ -5,6 +5,7 @@ from typing import Callable, Dict
 import time
 import logging
 from datetime import datetime
+import os
 
 #----------- LOGGER CONFIGURATION -----------
 logger = logging.getLogger(__name__)
@@ -192,9 +193,9 @@ if __name__ == "__main__":
         online_store_config = {
             'host': "db_online_store", 
             'port': "5432",
-            'database': "online_store",
-            'user': "admin",
-            'password': "adminadmin"
+            'database': os.getenv('ONLINE_STORE_DB'),
+            'user': os.getenv('ONLINE_STORE_USER'),
+            'password': os.getenv('ONLINE_STORE_PASSWORD')
         }
         online_store_connection = connect_to_database(online_store_config)
         online_store_cursor = online_store_connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -203,9 +204,9 @@ if __name__ == "__main__":
         physical_store_config = {
             'host': "db_physical_store", 
             'port': "5432",
-            'database': "physical_store",
-            'user': "admin",
-            'password': "adminadmin"
+            'database': os.getenv('PHYSICAL_STORE_DB'),
+            'user': os.getenv('PHYSICAL_STORE_USER'),
+            'password': os.getenv('PHYSICAL_STORE_PASSWORD')
         }
         physical_store_connection = connect_to_database(physical_store_config)
         physical_store_cursor = physical_store_connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
